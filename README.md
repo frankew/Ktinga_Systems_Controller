@@ -1,1 +1,3 @@
-# KTinga_Systems_Controller
+# K'Tinga Systems Controller
+
+Klingon Battle Cruiser model lights controller for Arduino. 

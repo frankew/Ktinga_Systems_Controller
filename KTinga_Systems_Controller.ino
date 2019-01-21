@@ -1,8 +1,7 @@
 /*
- * KTinga Systems Controller
+ * K'Tinga Systems Controller
  * Author: Frankie Winters
- * License: WTFPL
- * ./arduino-builder -hardware ./hardware -tools ./hardware/tools/avr -tools ./tools-builder -libraries ./libraries -fqbn arduino:avr:nano ~/Documents/repositories/refit-system-control/Daystrom_FWG1-M6-1701_Refit_Systems_Controller/Daystrom_FWG1-M6-1701_Refit_Systems_Controller.ino
+ * License: MIT
  */
 #include "Curve.h"
 #include "LEDFader.h"
