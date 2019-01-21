@@ -8,7 +8,6 @@
 #include "LEDFader.h"
 #include "LedFlasher.h"
 #include "Adafruit_NeoPixel.h"
-#include "NeoPixel_Animator.h"
 #include "Adafruit_NeoPatterns.h"
 
 // Pin assignments
@@ -24,7 +23,7 @@ uint32_t lastStateChange = 0;
 uint16_t timeUntilStateChange = 0;
 uint32_t missionDuration = 0;
 
-enum ShipStates {
+enum ShipStatus {
   offline = 0,
   reactorInitialized = 1,
   stationKeeping = 2,
@@ -33,7 +32,7 @@ enum ShipStates {
   nominal = 5,
   encounteredAnomaly = -1
 };
-ShipStates shipStatus = offline;
+ShipStatus shipStatus = offline;
 
 void setup ()
 {
@@ -65,12 +64,12 @@ void doStateChange ()
         environmentLights.set_curve(Curve::exponential);
         environmentLights.fade(255, 1850);
         printTickTock("Online");
-        nextStatus = reactorInitalized;
+        nextStatus = reactorInitialized;
     } break;
     
     /* Reactor Initalized: 
      - Start Navigation Lights */  
-    case reactorInitalized: {
+    case reactorInitialized: {
         floodlights.fade(155, 2500);
         printTickTock("Fusion Reactor Initialized");
         nextStatus = stationKeeping;
