@@ -21,14 +21,17 @@ LedFlasher navigationMarkers = LedFlasher(NavigationBeaconPin, 2000, 1000, true)
 LEDFader floodlights = LEDFader(FloodlightsPin);
 
 uint32_t lastStateChange = 0;
-uint16_t timeInThisState = 1000;
+uint16_t timeUntilStateChange = 0;
 uint32_t missionDuration = 0;
 
 enum ShipStates {
   offline = 0,
-  initialized = 1,
-  nominal = 2,
-  encounteredAnomaly = 7
+  reactorInitialized = 1,
+  stationKeeping = 2,
+  thrusters = 3,
+  fire = 4,
+  nominal = 5,
+  encounteredAnomaly = -1
 };
 ShipStates shipStatus = offline;
 
@@ -49,55 +52,87 @@ void setup ()
 
 void doStateChange ()
 {
-  lastStateChange = millis();    // when we last changed states
-  timeInThisState = 1000;        // default one second between states
-
-  switch(shipStatus) {
+  lastStateChange = millis();    // remember when we last changed states (now)
+  timeUntilStateChange = 1000;   // default one second between states
+  ShipStatus nextStatus; 
+  
+  switch(shipStatus) 
+  { 
+    /* Offline: 
+     - Start Reactor Lights */ 
     case offline: {
-        printTickTock("Initializing");
-
         navigationMarkers.begin();
         environmentLights.set_curve(Curve::exponential);
         environmentLights.fade(255, 1850);
-
-        shipStatus = initialized;
+        printTickTock("Online");
+        nextStatus = reactorInitalized;
     } break;
-    case initialized: {
+    
+    /* Reactor Initalized: 
+     - Start Navigation Lights */  
+    case reactorInitalized: {
         floodlights.fade(155, 2500);
-        shipStatus = nominal;
-        printTickTock("Initialized");
+        printTickTock("Fusion Reactor Initialized");
+        nextStatus = stationKeeping;
     } break;
-    case nominal: {
-        // Serial.println("nominal");
-        // environmentLights.fade(255, 850);
-        printTickTock("Nominal");
+
+    /* Stationkeeping: 
+     - Ramp up Environment Lights
+     - Ramp up Floodlights */  
+    case stationKeeping: {
+        printTickTock("StationKeeping");
+        nextStatus = thrusters;
     } break;
+
+    /* Thrusters: 
+     - Start Intake and Exhaust Lights */  
+    case thrusters: {
+        printTickTock("Thrusters!");
+        nextStatus = fire;
+    } break;
+
+    /* Fire! 
+     - Dim floodlights
+     - Fire forward  torpedo 
+     - Ramp up floodlights */    
+    case fire: {
+        printTickTock("Fire");
+        nextStatus = nominal;
+    } break;
+
+    /* Nominal:
+     - Wait a while, then fire torpedoes again */
+    case nominal:
     default: {
-        printTickTock("Default");
-    }
+        printTickTock("Nominal");
+        timeUntilStateChange = 3000;
+        nextStatus = fire;
+    } break;
+
   }
-
-
+  shipStatus = nextStatus; 
 }  
 
-void printTickTock(String label) {
+void printTickTock(String label)
+{
   uint32_t tseconds = lastStateChange / 1000;
   uint32_t tminutes = tseconds / 60;
   uint32_t seconds = tseconds % 60;
-  Serial.print(label);
-  Serial.print(": ");
   Serial.print(tminutes);
   Serial.print(":");
   Serial.println(seconds);
+  Serial.print(": ");
+  Serial.println(label);
 }
-
 
 void loop ()
 {
   floodlights.update();
   environmentLights.update();
   navigationMarkers.update();
-  if (millis() - lastStateChange >= timeInThisState)  {
+  
+  // check to see if we've spend enough time in this state. 
+  if (millis() - lastStateChange >= timeUntilStateChange)  {
     doStateChange ();
   }
 }  
