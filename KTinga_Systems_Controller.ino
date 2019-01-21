@@ -46,7 +46,7 @@ void setup ()
 
   lastStateChange = millis();
 
-  printTickTock("Setup");
+  missionReport("Setup");
 }
 
 void doStateChange ()
@@ -63,7 +63,7 @@ void doStateChange ()
         navigationMarkers.begin();
         environmentLights.set_curve(Curve::exponential);
         environmentLights.fade(255, 1850);
-        printTickTock("Online");
+        missionReport("Online");
         nextStatus = reactorInitialized;
     } break;
     
@@ -71,7 +71,7 @@ void doStateChange ()
      - Start Navigation Lights */  
     case reactorInitialized: {
         floodlights.fade(155, 2500);
-        printTickTock("Fusion Reactor Initialized");
+        missionReport("Fusion Reactor Initialized");
         nextStatus = stationKeeping;
     } break;
 
@@ -79,14 +79,14 @@ void doStateChange ()
      - Ramp up Environment Lights
      - Ramp up Floodlights */  
     case stationKeeping: {
-        printTickTock("StationKeeping");
+        missionReport("StationKeeping");
         nextStatus = thrusters;
     } break;
 
     /* Thrusters: 
      - Start Intake and Exhaust Lights */  
     case thrusters: {
-        printTickTock("Thrusters!");
+        missionReport("Thrusters!");
         nextStatus = fire;
     } break;
 
@@ -95,7 +95,7 @@ void doStateChange ()
      - Fire forward  torpedo 
      - Ramp up floodlights */    
     case fire: {
-        printTickTock("Fire");
+        missionReport("Fire");
         nextStatus = nominal;
     } break;
 
@@ -103,7 +103,7 @@ void doStateChange ()
      - Wait a while, then fire torpedoes again */
     case nominal:
     default: {
-        printTickTock("Nominal");
+        missionReport("Nominal");
         timeUntilStateChange = 3000;
         nextStatus = fire;
     } break;
@@ -112,7 +112,7 @@ void doStateChange ()
   shipStatus = nextStatus; 
 }  
 
-void printTickTock(String label)
+void missionReport(String label)
 {
   uint32_t tseconds = lastStateChange / 1000;
   uint32_t tminutes = tseconds / 60;
