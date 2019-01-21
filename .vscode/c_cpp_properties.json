@@ -1,0 +1,35 @@
+{
+    "configurations": [
+        {
+            "name": "Mac",
+            "includePath": [
+                "/Users/few/Library/Arduino15/packages/esp8266/tools/**",
+                "/Users/few/Library/Arduino15/packages/esp8266/hardware/esp8266/2.5.0-beta2/**",
+                "${workspaceFolder}/**",
+                "/Applications/Arduino.app/Contents/Java/hardware/arduino/avr/cores/arduino/",
+                "/Applications/Arduino.app/Contents/Java/hardware/arduino/avr/libraries/EEPROM/",
+                "/Applications/Arduino.app/Contents/Java/hardware/arduino/avr/libraries/HID/",
+                "/Applications/Arduino.app/Contents/Java/hardware/arduino/avr/libraries/SPI/",
+                "/Applications/Arduino.app/Contents/Java/hardware/arduino/avr/libraries/SoftwareSerial/",
+                "/Applications/Arduino.app/Contents/Java/hardware/arduino/avr/libraries/Wire/",
+                "/Applications/Arduino.app/Contents/Java/hardware/tools/avr/avr/include/",
+                "/Applications/Arduino.app/Contents/Java/hardware/tools/avr/avr/include/avr/",
+                "/Applications/Arduino.app/Contents/Java/hardware/tools/avr/avr/include/compat/",
+                "/Applications/Arduino.app/Contents/Java/hardware/tools/avr/avr/include/util/",
+                "/Applications/Arduino.app/Contents/Java/hardware/tools/avr/lib/gcc/avr/4.*.*/include/",
+                "/Applications/Arduino.app/Contents/Java/hardware/tools/avr/lib/gcc/avr/4.*.*/include-fixed/"
+            ],
+            "defines": [],
+            "macFrameworkPath": [
+                "/System/Library/Frameworks",
+                "/Library/Frameworks"
+            ],
+            "compilerPath": "/usr/bin/clang",
+            "cStandard": "c11",
+            "cppStandard": "c++17",
+            "intelliSenseMode": "clang-x64",
+            "forcedInclude": []
+        }
+    ],
+    "version": 4
+}
