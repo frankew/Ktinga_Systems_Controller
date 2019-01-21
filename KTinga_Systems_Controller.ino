@@ -9,19 +9,17 @@
 #include "Adafruit_NeoPixel.h"
 #include "Adafruit_NeoPatterns.h"
 
-// Pin assignments
+// What's connected where?
 const byte NavigationBeaconPin = 9; 
 const byte FloodlightsPin = 10;    
 const byte EnvironmentLightsPin = 11; 
 
+// Controllers for different lighting circuits
 LEDFader environmentLights = LEDFader(EnvironmentLightsPin);
 LedFlasher navigationMarkers = LedFlasher(NavigationBeaconPin, 2000, 1000, true);
 LEDFader floodlights = LEDFader(FloodlightsPin);
 
-uint32_t lastStateChange = 0;
-uint16_t timeUntilStateChange = 0;
-uint32_t missionDuration = 0;
-
+// Ship state and time counting variables
 enum ShipStatus {
   offline = 0,
   reactorInitialized = 1,
@@ -32,6 +30,9 @@ enum ShipStatus {
   encounteredAnomaly = -1
 };
 ShipStatus shipStatus = offline;
+uint32_t lastStateChange = 0;
+uint16_t timeUntilStateChange = 0;
+
 
 void setup ()
 {
