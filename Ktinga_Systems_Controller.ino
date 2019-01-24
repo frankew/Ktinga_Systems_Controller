@@ -1,5 +1,5 @@
 /*
- * K'Tinga Systems Controller
+ * K't'inga Systems Controller
  * Author: Frankie Winters
  * License: MIT
  */
@@ -10,14 +10,21 @@
 #include "Adafruit_NeoPatterns.h"
 
 // What's connected where?
+const byte TorpedoPin = 3; 
+const byte IntakePin = 4;    
+const byte ExhaustPin = 5; 
+
 const byte NavigationBeaconPin = 9; 
 const byte FloodlightsPin = 10;    
 const byte EnvironmentLightsPin = 11; 
 
 // Controllers for different lighting circuits
+LEDFader floodlights = LEDFader(FloodlightsPin);
 LEDFader environmentLights = LEDFader(EnvironmentLightsPin);
 LedFlasher navigationMarkers = LedFlasher(NavigationBeaconPin, 2000, 1000, true);
-LEDFader floodlights = LEDFader(FloodlightsPin);
+NeoPatterns torpedo = NeoPatterns(1, TorpedoPin, NEO_RGB + NEO_KHZ800, &torpedoComplete);
+NeoPatterns intake  = NeoPatterns(4, IntakePin, NEO_RGB + NEO_KHZ800, &intakeComplete);
+NeoPatterns exhaust = NeoPatterns(1, ExhaustPin, NEO_RGB + NEO_KHZ800, &exhaustComplete);
 
 // Ship state and time counting variables
 enum ShipStatus {
@@ -32,7 +39,6 @@ enum ShipStatus {
 ShipStatus shipStatus = offline;
 uint32_t lastStateChange = 0;
 uint16_t timeUntilStateChange = 0;
-
 
 void setup ()
 {
@@ -134,4 +140,16 @@ void loop ()
   if (millis() - lastStateChange >= timeUntilStateChange)  {
     doStateChange ();
   }
-}  
+}
+
+void torpedoComplete()
+{
+}
+
+void intakeComplete()
+{
+}
+
+void exhaustComplete()
+{
+}
