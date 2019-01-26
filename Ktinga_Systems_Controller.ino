@@ -27,7 +27,7 @@ NeoPatterns intake  = NeoPatterns(3, IntakePin, NEO_RGB + NEO_KHZ800, NULL);
 NeoPatterns exhaust = NeoPatterns(1, ExhaustPin, NEO_RGB + NEO_KHZ800, NULL);
 NeoPatterns torpedo = NeoPatterns(1, TorpedoPin, NEO_RGB + NEO_KHZ800, NULL);
 
-// Ship state and time counting variables
+// Ship status and time counting variables
 enum ShipStatus {
   offline = 0,
   reactorInitialized = 1,
@@ -117,10 +117,7 @@ void doStateChange ()
     case fire: {
         missionReport("Fire");
         torpedo.ColorSet(red);
-        // intake.ColorSet(red);
-        for (int pxl = 0; pxl < 3; pxl++) {
-            intake.setPixelColor(pxl, red);
-        }
+        intake.ColorSet(red);
         exhaust.ColorSet(violet);
 
         environmentLights.set_value(85);
@@ -136,10 +133,7 @@ void doStateChange ()
     default: {
         missionReport("Nominal");
         torpedo.ColorSet(blue);
-        // intake.ColorSet(blue);
-        for (int pxl = 0; pxl < 3; pxl++) {
-            intake.setPixelColor(pxl, blue);
-        }
+        intake.ColorSet(blue);
         exhaust.ColorSet(red);
 
         environmentLights.set_value(255);
