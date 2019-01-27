@@ -17,7 +17,8 @@
                 "/Applications/Arduino.app/Contents/Java/hardware/tools/avr/avr/include/compat/",
                 "/Applications/Arduino.app/Contents/Java/hardware/tools/avr/avr/include/util/",
                 "/Applications/Arduino.app/Contents/Java/hardware/tools/avr/lib/gcc/avr/4.*.*/include/",
-                "/Applications/Arduino.app/Contents/Java/hardware/tools/avr/lib/gcc/avr/4.*.*/include-fixed/"
+                "/Applications/Arduino.app/Contents/Java/hardware/tools/avr/lib/gcc/avr/4.*.*/include-fixed/",
+                "/Users/few/Documents/Arduino/libraries/Adafruit_NeoPixel"
             ],
             "defines": [],
             "macFrameworkPath": [

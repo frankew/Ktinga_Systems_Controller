@@ -6,7 +6,7 @@
 #include "Curve.h"
 #include "LEDFader.h"
 #include "LedFlasher.h"
-#include "Adafruit_NeoPatterns.h"
+#include "NeoPixel_FewPatterns.h"
 
 // What's connected where?
 const byte TorpedoPin = 3; 
@@ -18,14 +18,16 @@ const byte NavigationBeaconsPin = 9;
 const byte FloodlightsPin = 10;    
 const byte EnvironmentLightsPin = 11; 
 
+void intakeComplete();
+
 // Controllers for different lighting circuits
 LEDFader reactorLights = LEDFader(ReactorLightsPin);
 LEDFader floodlights = LEDFader(FloodlightsPin);
 LEDFader environmentLights = LEDFader(EnvironmentLightsPin);
 LedFlasher navigationBeacons = LedFlasher(NavigationBeaconsPin, 2000, 1000, true);
-NeoPatterns intake  = NeoPatterns(3, IntakePin, NEO_RGB + NEO_KHZ800, NULL);
-NeoPatterns exhaust = NeoPatterns(1, ExhaustPin, NEO_RGB + NEO_KHZ800, NULL);
-NeoPatterns torpedo = NeoPatterns(1, TorpedoPin, NEO_RGB + NEO_KHZ800, NULL);
+FewPatterns intake  = FewPatterns(3, IntakePin, NEO_RGB + NEO_KHZ800, &intakeComplete);
+FewPatterns exhaust = FewPatterns(1, ExhaustPin, NEO_RGB + NEO_KHZ800, NULL);
+FewPatterns torpedo = FewPatterns(1, TorpedoPin, NEO_RGB + NEO_KHZ800, NULL);
 
 // Ship status and time counting variables
 enum ShipStatus {
@@ -59,6 +61,8 @@ void setup ()
   pinMode(ExhaustPin, OUTPUT);
 
   reactorLights.set_value(0);
+  environmentLights.set_value(0);
+  floodlights.set_value(0);
 
   torpedo.begin();
   torpedo.show();
@@ -93,7 +97,12 @@ void doStateChange ()
         missionReport("Fusion Reactor Initialized");
         navigationBeacons.begin();
         reactorLights.fade(255, 850);
-        intake.ColorSet(red);
+        // intake.ColorSet(red);
+
+        
+        // (uint32_t color1, uint32_t color2, uint16_t steps, uint8_t interval)
+
+        intake.Fade(black, red, 32, 25, FORWARD);
         nextStatus = stationKeeping;
     } break;
 
@@ -178,6 +187,7 @@ void torpedoComplete()
 
 void intakeComplete()
 {
+  intake.ActivePattern = NONE;
 }
 
 void exhaustComplete()

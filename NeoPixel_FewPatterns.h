@@ -1,18 +1,19 @@
 #pragma once
 #include "Adafruit_NeoPixel.h"
 
+// Based on Adafruit's NeoPatterns
 // https://learn.adafruit.com/multi-tasking-the-arduino-part-3/using-neopatterns
 //
 // Pattern types supported:
-enum pattern { NONE, RAINBOW_CYCLE, THEATER_CHASE, COLOR_WIPE, SCANNER, SHUTTLE, FADE };
+enum pattern { NONE, RAINBOW_CYCLE, THEATER_CHASE, COLOR_WIPE, SCANNER, SHUTTLE, FIRE, FADE };
 // Patern directions supported:
 enum direction { FORWARD, REVERSE };
 
 // NeoPattern Class - derived from the Adafruit_NeoPixel class
-class NeoPatterns : public Adafruit_NeoPixel
+class FewPatterns : public Adafruit_NeoPixel
 {
   public:
-    NeoPatterns(uint16_t pixels, uint8_t pin, uint8_t type, void (*callback)());
+    FewPatterns(uint16_t pixels, uint8_t pin, uint8_t type, void (*callback)());
 
     // Member Variables:
     pattern  ActivePattern;  // which pattern is running
@@ -27,6 +28,13 @@ class NeoPatterns : public Adafruit_NeoPixel
 
     void (*OnComplete)();  // Callback on completion of pattern
 
+    // Added Functions
+    void ShuttleApproach(uint8_t interval);
+    void ShuttleApproachUpdate();
+    void Fire(uint32_t color, uint16_t steps, uint8_t interval);
+    void FireUpdate();
+    
+    // Original NeoPatterns Functinos
     void Update();
     void Increment();
     void Decrement();
@@ -39,8 +47,6 @@ class NeoPatterns : public Adafruit_NeoPixel
     void ColorWipeUpdate();
     void Scanner(uint32_t color1, uint8_t interval);
     void ScannerUpdate();
-    void ShuttleApproach(uint8_t interval);
-    void ShuttleApproachUpdate();
     void Fade(uint32_t color1, uint32_t color2, uint16_t steps, uint8_t interval, direction dir);
     void FadeUpdate();
     void ColorSet(uint32_t color);
