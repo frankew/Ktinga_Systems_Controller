@@ -58,6 +58,8 @@ void setup ()
   pinMode(IntakePin, OUTPUT);
   pinMode(ExhaustPin, OUTPUT);
 
+  reactorLights.set_value(0);
+
   torpedo.begin();
   torpedo.show();
   intake.begin();
@@ -81,8 +83,6 @@ void doStateChange ()
     /* Offline: 
      - Start Reactor Lights */ 
     case offline: {
-        navigationBeacons.begin();
-
         missionReport("Online");
         nextStatus = reactorInitialized;
     } break;
@@ -90,8 +90,10 @@ void doStateChange ()
     /* Reactor Initalized: 
      - Start Navigation Lights */  
     case reactorInitialized: {
-        // floodlights.fade(255, 2500);
         missionReport("Fusion Reactor Initialized");
+        navigationBeacons.begin();
+        reactorLights.fade(255, 850);
+        intake.ColorSet(red);
         nextStatus = stationKeeping;
     } break;
 
@@ -100,6 +102,8 @@ void doStateChange ()
      - Ramp up Floodlights */  
     case stationKeeping: {
         missionReport("StationKeeping");
+        environmentLights.fade(85, 2500);
+        floodlights.fade(255, 1200);
         nextStatus = thrusters;
     } break;
 
@@ -107,6 +111,7 @@ void doStateChange ()
      - Start Intake and Exhaust Lights */  
     case thrusters: {
         missionReport("Thrusters!");
+        exhaust.ColorSet(red);
         nextStatus = fire;
     } break;
 
@@ -116,14 +121,9 @@ void doStateChange ()
      - Ramp up floodlights */    
     case fire: {
         missionReport("Fire");
+        exhaust.ColorSet(black);
+        floodlights.fade(0, 250);
         torpedo.ColorSet(red);
-        intake.ColorSet(red);
-        exhaust.ColorSet(violet);
-
-        environmentLights.set_value(85);
-        floodlights.set_value(255);
-        reactorLights.fade(255, 1000);
-
         nextStatus = nominal;
     } break;
 
@@ -132,14 +132,9 @@ void doStateChange ()
     case nominal:
     default: {
         missionReport("Nominal");
-        torpedo.ColorSet(blue);
-        intake.ColorSet(blue);
+        floodlights.fade(255, 1200);
+        torpedo.ColorSet(black);
         exhaust.ColorSet(red);
-
-        environmentLights.set_value(255);
-        floodlights.set_value(0);
-        reactorLights.fade(0, 1000);
-
         timeUntilStateChange = 3000;
         nextStatus = fire;
     } break;
