@@ -210,9 +210,9 @@ void FewPatterns::ShuttleApproachUpdate()
 }
 
 // Initialize for Fire (Fade with Flicker)
-void FewPatterns::Fire(uint32_t color, uint16_t steps, uint8_t interval)
+void FewPatterns::FadeFlicker(uint32_t color, uint16_t steps, uint8_t interval)
 {
-    ActivePattern = FIRE;
+    ActivePattern = FADEFLICKER;
     Interval = interval;
     TotalSteps = steps;
     Color1 = getPixelColor(0);
@@ -221,7 +221,7 @@ void FewPatterns::Fire(uint32_t color, uint16_t steps, uint8_t interval)
     Direction = FORWARD;
 }
 
-void FewPatterns::FireUpdate()
+void FewPatterns::FadeFlickerUpdate()
 {
     // Calculate linear interpolation between Color1 and Color2
     // Optimise order of operations to minimize truncation error
@@ -233,22 +233,25 @@ void FewPatterns::FireUpdate()
     for (int i = 0; i < numPixels(); i++)
     {
         float flicker = random(60, 100) * 0.01;
-        uint8_t r1 = Red(targetColor);
-        uint8_t g1 = Green(targetColor);
-        uint8_t b1 = Blue(targetColor);
+ //       uint8_t r1 = Red(targetColor);
+ //       uint8_t g1 = Green(targetColor);
+ //       uint8_t b1 = Blue(targetColor);
+ //       uint8_t r1 = Red(targetColor);
+ //       uint8_t g1 = Green(targetColor);
+ //       uint8_t b1 = Blue(targetColor);
 
-        uint32_t finalColor = Color(r1 * flicker, g1 * flicker, b1 * flicker);
+
+        uint32_t finalColor = Color(red * flicker, green * flicker, blue * flicker);
         setPixelColor(i, finalColor);
     }
     show();
     Increment();
 }
 
-void FewPatterns::FireFlickerUpdate()
+void FewPatterns::FlickerUpdate()
 {
     for (int i = 0; i < numPixels(); i++)
     {
-        // uint8_t flickerLimit = 55;
         uint32_t currentColor = Color2;
 
         uint8_t r1 = Red(currentColor);
@@ -374,11 +377,11 @@ void FewPatterns::Update()
         case SHUTTLE:
             ShuttleApproachUpdate();
             break;
-        case FIRE:
-            FireUpdate();
+        case FADEFLICKER:
+            FadeFlickerUpdate();
             break;
-        case FIREFLICKER:
-            FireFlickerUpdate();
+        case FLICKER:
+            FlickerUpdate();
             break;
         case FADE:
             FadeUpdate();

@@ -99,7 +99,7 @@ void doStateChange ()
         navigationBeacons.begin();
         reactorLights.fade(255, 850);
 
-        intake.Fire(orangered, 80, 35);
+        intake.FadeFlicker(orangered, 80, 35);
         nextStatus = stationKeeping;
     } break;
 
@@ -117,7 +117,7 @@ void doStateChange ()
      - Start Intake and Exhaust Lights */  
     case thrusters: {
         missionReport("Thrusters!");
-        exhaust.Fire(red, 80, 35);
+        exhaust.FadeFlicker(red, 80, 35);
         nextStatus = fire;
     } break;
 
@@ -185,12 +185,12 @@ void torpedoComplete()
 
 void intakeComplete()
 {
-  intake.ActivePattern = FIREFLICKER;
+  intake.ActivePattern = FLICKER;
   missionReport("intake fade complete");
 }
 
 void exhaustComplete()
 {
-  exhaust.ActivePattern = FIREFLICKER;
+  exhaust.ActivePattern = FLICKER;
   missionReport("exhaust fade complete");
 }

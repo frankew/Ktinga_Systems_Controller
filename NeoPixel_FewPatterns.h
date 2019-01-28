@@ -5,7 +5,7 @@
 // https://learn.adafruit.com/multi-tasking-the-arduino-part-3/using-neopatterns
 //
 // Pattern types supported:
-enum pattern { NONE, RAINBOW_CYCLE, THEATER_CHASE, COLOR_WIPE, SCANNER, SHUTTLE, FIRE, FIREFLICKER, FADE };
+enum pattern { NONE, RAINBOW_CYCLE, THEATER_CHASE, COLOR_WIPE, SCANNER, FADE, FADEFLICKER, FLICKER, SHUTTLE};
 // Patern directions supported:
 enum direction { FORWARD, REVERSE };
 
@@ -31,9 +31,9 @@ class FewPatterns : public Adafruit_NeoPixel
     // Added Functions
     void ShuttleApproach(uint8_t interval);
     void ShuttleApproachUpdate();
-    void Fire(uint32_t color, uint16_t steps, uint8_t interval);
-    void FireUpdate();
-    void FireFlickerUpdate();
+    void FadeFlicker(uint32_t color, uint16_t steps, uint8_t interval);
+    void FadeFlickerUpdate();
+    void FlickerUpdate();
 
     // Original NeoPatterns Functinos
     void Update();
