@@ -44,8 +44,9 @@ uint32_t lastStateChange = 0;
 uint16_t timeUntilStateChange = 0;
 
 uint32_t black = exhaust.Color(0,0,0);
-uint32_t red = exhaust.Color(20, 248, 0);
+uint32_t red = exhaust.Color(20, 255, 0);
 uint32_t blue = exhaust.Color(128, 0, 153);
+uint32_t orangered = exhaust.Color(85, 255, 0);
 uint32_t violet = exhaust.Color(0, 159, 255);
 
 void setup ()
@@ -98,7 +99,7 @@ void doStateChange ()
         navigationBeacons.begin();
         reactorLights.fade(255, 850);
 
-        intake.Fire(red, 80, 35);
+        intake.Fire(orangered, 80, 35);
         nextStatus = stationKeeping;
     } break;
 
