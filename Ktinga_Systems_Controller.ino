@@ -48,8 +48,8 @@ bool canFireTorpedos = true;
 uint32_t black = exhaust.Color(0,0,0);
 uint32_t red = exhaust.Color(20, 255, 0);
 uint32_t blue = exhaust.Color(128, 0, 153);
-uint32_t orangered = exhaust.Color(85, 255, 0);
-uint32_t yellow = exhaust.Color(225, 225, 0);
+uint32_t orangered = exhaust.Color(68, 205, 0);
+uint32_t yellow = exhaust.Color(115, 115, 45);
 uint32_t violet = exhaust.Color(0, 159, 255);
 
 void setup ()
@@ -185,41 +185,47 @@ void loop ()
 
 void torpedoComplete()
 {
-  torpedo.FadeFlicker(red, 25, 35);
+  torpedo.FadeFlicker(red, 10, 15);
   torpedo.OnComplete = &torpedoComplete2;
 }
 
 void torpedoComplete2()
 {
-  torpedo.FadeFlicker(yellow, 15, 35);
+  torpedo.FadeFlicker(yellow, 65, 35);
   torpedo.OnComplete = &torpedoComplete3;
 }
 
 void torpedoComplete3()
 { 
-  torpedo.FadeFlicker(orangered, 25, 35);
+  torpedo.FadeFlicker(red, 10, 15);
   torpedo.OnComplete = &torpedoComplete4;
 }
 
 void torpedoComplete4()
 {
-  torpedo.FadeFlicker(yellow, 15, 35);
+  torpedo.FadeFlicker(yellow, 65, 35);
   torpedo.OnComplete = &torpedoComplete5;
 }
 
 void torpedoComplete5()
 { 
-  torpedo.FadeFlicker(red, 25, 35);
+  torpedo.FadeFlicker(red, 10, 15);
   torpedo.OnComplete = &torpedoComplete6;
 }
 
 void torpedoComplete6()
 { 
-  torpedo.FadeFlicker(black, 15, 35);
+  torpedo.FadeFlicker(yellow, 45, 35);
   torpedo.OnComplete = &torpedoComplete7;
 }
 
 void torpedoComplete7()
+{ 
+  torpedo.FadeFlicker(black, 15, 35);
+  torpedo.OnComplete = &torpedoComplete8;
+}
+
+void torpedoComplete8()
 {
   torpedo.ActivePattern = NONE;
   torpedo.ColorSet(black);
