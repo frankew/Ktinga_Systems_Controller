@@ -232,20 +232,39 @@ void FewPatterns::FireUpdate()
 
     for (int i = 0; i < numPixels(); i++)
     {
-        // uint8_t flickerLimit = 55;
-        uint8_t flicker = random(80, 100)/100;
-        uint8_t r1 = red * flicker;
-        uint8_t g1 = green * flicker;
-        uint8_t b1 = blue * flicker;
-        // if (g1 < 0) g1 = 0;
-        // if (r1 < 0) r1 = 0;
-        // if (b1 < 0) b1 = 0;
+        float flicker = random(60, 100) * 0.01;
+        uint8_t r1 = Red(targetColor);
+        uint8_t g1 = Green(targetColor);
+        uint8_t b1 = Blue(targetColor);
 
-        uint32_t finalColor = Color(g1, r1, b1);
-        setPixelColor(i, targetColor);
+        uint32_t finalColor = Color(r1 * flicker, g1 * flicker, b1 * flicker);
+        setPixelColor(i, finalColor);
     }
     show();
     Increment();
+}
+
+void FewPatterns::FireFlickerUpdate()
+{
+    for (int i = 0; i < numPixels(); i++)
+    {
+        // uint8_t flickerLimit = 55;
+        uint32_t currentColor = Color2;
+
+        uint8_t r1 = Red(currentColor);
+        uint8_t g1 = Green(currentColor);
+        uint8_t b1 = Blue(currentColor);
+        
+        float flicker = random(70, 100) * 0.01;
+
+        // Serial.print("flicker:");
+        // Serial.println(flicker);
+
+        uint32_t finalColor = Color(r1 * flicker, g1 * flicker, b1 * flicker);
+        setPixelColor(i, finalColor);
+    }
+    show();
+
 }
 
 // Initialize for a Fade
@@ -278,7 +297,7 @@ void FewPatterns::FadeUpdate()
 uint32_t FewPatterns::DimColor(uint32_t color)
 {
     // Shift R, G and B components one bit to the right
-    float frankieFactor = 0.65;
+    float frankieFactor = 0.95;
     uint32_t dimColor = Color(Red(color) * frankieFactor, Green(color) * frankieFactor, Blue(color) * frankieFactor);
     return dimColor;
 }
@@ -357,6 +376,9 @@ void FewPatterns::Update()
             break;
         case FIRE:
             FireUpdate();
+            break;
+        case FIREFLICKER:
+            FireFlickerUpdate();
             break;
         case FADE:
             FadeUpdate();

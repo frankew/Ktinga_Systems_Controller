@@ -26,7 +26,7 @@ LEDFader floodlights = LEDFader(FloodlightsPin);
 LEDFader environmentLights = LEDFader(EnvironmentLightsPin);
 LedFlasher navigationBeacons = LedFlasher(NavigationBeaconsPin, 2000, 1000, true);
 FewPatterns intake  = FewPatterns(3, IntakePin, NEO_RGB + NEO_KHZ800, &intakeComplete);
-FewPatterns exhaust = FewPatterns(1, ExhaustPin, NEO_RGB + NEO_KHZ800, NULL);
+FewPatterns exhaust = FewPatterns(1, ExhaustPin, NEO_RGB + NEO_KHZ800, &exhaustComplete);
 FewPatterns torpedo = FewPatterns(1, TorpedoPin, NEO_RGB + NEO_KHZ800, NULL);
 
 // Ship status and time counting variables
@@ -97,12 +97,8 @@ void doStateChange ()
         missionReport("Fusion Reactor Initialized");
         navigationBeacons.begin();
         reactorLights.fade(255, 850);
-        // intake.ColorSet(red);
 
-        
-        // (uint32_t color1, uint32_t color2, uint16_t steps, uint8_t interval)
-
-        intake.Fade(black, red, 32, 25, FORWARD);
+        intake.Fire(red, 80, 35);
         nextStatus = stationKeeping;
     } break;
 
@@ -120,7 +116,7 @@ void doStateChange ()
      - Start Intake and Exhaust Lights */  
     case thrusters: {
         missionReport("Thrusters!");
-        exhaust.ColorSet(red);
+        exhaust.Fire(red, 80, 35);
         nextStatus = fire;
     } break;
 
@@ -130,9 +126,10 @@ void doStateChange ()
      - Ramp up floodlights */    
     case fire: {
         missionReport("Fire");
-        exhaust.ColorSet(black);
+
         floodlights.fade(0, 250);
         torpedo.ColorSet(red);
+        timeUntilStateChange = 2500;
         nextStatus = nominal;
     } break;
 
@@ -143,8 +140,8 @@ void doStateChange ()
         missionReport("Nominal");
         floodlights.fade(255, 1200);
         torpedo.ColorSet(black);
-        exhaust.ColorSet(red);
-        timeUntilStateChange = 3000;
+
+        timeUntilStateChange = 6000;
         nextStatus = fire;
     } break;
 
@@ -187,9 +184,12 @@ void torpedoComplete()
 
 void intakeComplete()
 {
-  intake.ActivePattern = NONE;
+  intake.ActivePattern = FIREFLICKER;
+  missionReport("intake fade complete");
 }
 
 void exhaustComplete()
 {
+  exhaust.ActivePattern = FIREFLICKER;
+  missionReport("exhaust fade complete");
 }
