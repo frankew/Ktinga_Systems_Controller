@@ -233,14 +233,6 @@ void FewPatterns::FadeFlickerUpdate()
     for (int i = 0; i < numPixels(); i++)
     {
         float flicker = random(60, 100) * 0.01;
- //       uint8_t r1 = Red(targetColor);
- //       uint8_t g1 = Green(targetColor);
- //       uint8_t b1 = Blue(targetColor);
- //       uint8_t r1 = Red(targetColor);
- //       uint8_t g1 = Green(targetColor);
- //       uint8_t b1 = Blue(targetColor);
-
-
         uint32_t finalColor = Color(red * flicker, green * flicker, blue * flicker);
         setPixelColor(i, finalColor);
     }
@@ -267,7 +259,6 @@ void FewPatterns::FlickerUpdate()
         setPixelColor(i, finalColor);
     }
     show();
-
 }
 
 // Initialize for a Fade
