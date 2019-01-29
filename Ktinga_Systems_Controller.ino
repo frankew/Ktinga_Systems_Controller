@@ -49,7 +49,7 @@ uint32_t black = exhaust.Color(0,0,0);
 uint32_t red = exhaust.Color(20, 255, 0);
 uint32_t blue = exhaust.Color(128, 0, 153);
 uint32_t orangered = exhaust.Color(68, 205, 0);
-uint32_t yellow = exhaust.Color(115, 115, 45);
+uint32_t yellow = exhaust.Color(115, 115, 20);
 uint32_t violet = exhaust.Color(0, 159, 255);
 
 void setup ()
@@ -111,8 +111,7 @@ void doStateChange ()
      - Ramp up Floodlights */  
     case stationKeeping: {
         missionReport("StationKeeping");
-        environmentLights.fade(85, 2500);
-        floodlights.fade(255, 1200);
+        environmentLights.fade(85, 1650);
         timeUntilStateChange = 8000;
         nextStatus = thrusters;
     } break;
@@ -121,6 +120,7 @@ void doStateChange ()
      - Start Intake and Exhaust Lights */  
     case thrusters: {
         missionReport("Thrusters!");
+        floodlights.fade(255, 1850);
         exhaust.FadeFlicker(red, 80, 35);
         nextStatus = nominal;
     } break;
@@ -143,7 +143,7 @@ void doStateChange ()
     case fire: {
         missionReport("Fire");
         canFireTorpedos = false;
-        floodlights.fade(0, 85);
+        floodlights.fade(0, 285);
         exhaust.FadeFlicker(black, 35, 35);
         torpedo.FadeFlicker(yellow, 65, 35);
         // timeUntilStateChange = 7500;
